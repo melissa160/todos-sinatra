@@ -13,11 +13,22 @@
   <!-- Template para renderizar la lista de ToDos -->
   <script id="entry_template" type="text/x-handlebars-template">
     {{#each todos}}
-      <article id="{{ id  }}">
-        <span>{{id }}.</span>
-        <span class="content">{{todo_content}}  </span>  
-        <a class="edit"  href="#" data-id="{{id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-        <a class="delete"  href="/todos/{{id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+      <article id="{{ id  }}" draggable="true" class="article_todo">
+        <div class="tag">
+          <span><i class="fa fa-thumb-tack" aria-hidden="true"></i> </span>
+          <span class="content">{{todo_content}}  </span>  
+          <div class="append_edit"></div>
+        </div>
+
+        <div class="todo_action">
+          <a class="edit"  href="#" data-id="{{id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+          <a class="delete"  href="/todos/{{id}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+          {{#if completed}}
+            <a class="check"  href="/todos/{{id}}"><i class="fa fa-check" aria-hidden="true"></i></a>
+          {{else}}
+            <a class="check"  href="/todos/{{id}}"><i class="fa fa-times" aria-hidden="true"></i></a>
+          {{/if}}
+        </div>
       </article>
     {{/each}}
   </script>
@@ -25,9 +36,17 @@
   <!-- Template para editar un ToDo -->
   <script id="edit_template" type="text/x-handlebars-template">
     <form class="edit-form" method="post" action="/todos/{{id}}/edit">
-      <input type="hidden" name="_method" value="patch">
-      <input name="content" type="text" value="{{todo_content}}">
-      <input type="submit" value="Guardar">
+      <div>
+        <input type="hidden" name="_method" value="patch">
+        <input name="content" type="text" value="{{todo_content}}">
+      </div>
+      <div class="check">
+        <input type="checkbox" id="completed" name="completed" value="{{completed}}"> <label for="completed">Task completed</label>
+      </div>
+      <div class="edit_submit">
+        <input class="save" type="submit" value="Save">
+        <input class="cancel" type="button" value="Cancel">
+      </div>
     </form>
   </script>
 

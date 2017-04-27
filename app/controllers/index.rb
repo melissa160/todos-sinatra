@@ -25,7 +25,8 @@ end
 #update
 patch "/todos/:id/edit" do
   todo = Todo.find_by(id: params[:id])
-  todo.update(todo_content: params[:content])
+  todo_state = params[:completed] == nil ? false : true 
+  todo.update(todo_content: params[:content], completed: todo_state)
   redirect "/todos"
 end
 
